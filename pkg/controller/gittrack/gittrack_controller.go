@@ -538,18 +538,17 @@ func (r *ReconcileGitTrack) Reconcile(request reconcile.Request) (reconcile.Resu
 
 	// Attempt to parse k8s objects from files
 	objects, fileErrors := objectsFrom(files)
-
-	// Update status with the number of objects discovered
-	sOpts.discovered = int64(len(objects))
+	sOpts.ignoredFiles = fileErrors
+	sOpts.ignored += int64(len(fileErrors))
 
 	if len(fileErrors) > 0 {
-		sOpts.discovered += int64(len(fileErrors))
-		sOpts.ignored += int64(len(fileErrors))
-		sOpts.ignoredFiles = fileErrors
 		sOpts.parseReason = gittrackutils.ErrorParsingFiles
 	} else {
 		sOpts.parseReason = gittrackutils.FileParseSuccess
 	}
+
+	// Update status with the number of objects discovered
+	sOpts.discovered = int64(len(objects)) + int64(len(fileErrors))
 
 	// Get a list of the GitTrackObjects that currently exist, by name
 	objectsByName, err := r.listObjectsByName(instance)
