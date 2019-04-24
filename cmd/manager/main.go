@@ -27,14 +27,13 @@ import (
 	"github.com/pusher/faros/pkg/apis"
 	"github.com/pusher/faros/pkg/controller"
 	farosflags "github.com/pusher/faros/pkg/flags"
+	flogr "github.com/pusher/faros/pkg/log"
 	"github.com/pusher/faros/pkg/utils"
 	flag "github.com/spf13/pflag"
 	_ "k8s.io/client-go/plugin/pkg/client/auth"
 	"k8s.io/klog"
-	"k8s.io/klog/klogr"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
-	logr "sigs.k8s.io/controller-runtime/pkg/runtime/log"
 	"sigs.k8s.io/controller-runtime/pkg/runtime/signals"
 )
 
@@ -48,8 +47,7 @@ var (
 )
 
 func main() {
-	logr.SetLogger(klogr.New())
-	log := logr.Log.WithName("manager")
+	log := flogr.Log.WithName("manager")
 	logFlags := &goflag.FlagSet{}
 	klog.InitFlags(logFlags)
 	err := logFlags.Lookup("logtostderr").Value.Set("false")

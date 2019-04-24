@@ -28,6 +28,7 @@ import (
 	gittrackobjectutils "github.com/pusher/faros/pkg/controller/gittrackobject/utils"
 
 	"github.com/go-logr/logr"
+	flogr "github.com/pusher/faros/pkg/log"
 	"github.com/pusher/faros/pkg/utils"
 	farosclient "github.com/pusher/faros/pkg/utils/client"
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -41,7 +42,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
-	rlogr "sigs.k8s.io/controller-runtime/pkg/runtime/log"
 	"sigs.k8s.io/controller-runtime/pkg/source"
 )
 
@@ -84,7 +84,7 @@ func newReconciler(mgr manager.Manager) reconcile.Reconciler {
 		recorder:       mgr.GetEventRecorderFor("gittrackobject-controller"),
 		applier:        applier,
 		dryRunVerifier: dryRunVerifier,
-		log:            rlogr.Log.WithName("gittrackobject-controller"),
+		log:            flogr.Log.WithName("gittrackobject-controller"),
 	}
 }
 
@@ -129,7 +129,7 @@ func add(mgr manager.Manager, r reconcile.Reconciler) error {
 					IsController: true,
 					OwnerType:    &farosv1alpha1.ClusterGitTrackObject{},
 				},
-				Log: rlogr.Log.WithName("gittrackobject-controller/enqueue-request-for-owner"),
+				Log: flogr.Log.WithName("gittrackobject-controller/enqueue-request-for-owner"),
 			},
 			utils.NewOwnersOwnerInNamespacePredicate(mgr.GetClient()),
 		)

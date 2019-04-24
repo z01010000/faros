@@ -34,11 +34,9 @@ import (
 	"k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/rest"
 	"k8s.io/klog"
-	"k8s.io/klog/klogr"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
-	logr "sigs.k8s.io/controller-runtime/pkg/runtime/log"
 )
 
 var cfg *rest.Config
@@ -73,7 +71,6 @@ func TestMain(t *testing.T) {
 var t *envtest.Environment
 
 var _ = BeforeSuite(func() {
-	logr.SetLogger(klogr.New())
 	logFlags := &flag.FlagSet{}
 	klog.InitFlags(logFlags)
 	// Set log level high for tests

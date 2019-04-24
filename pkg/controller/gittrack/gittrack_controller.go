@@ -27,6 +27,7 @@ import (
 	farosv1alpha1 "github.com/pusher/faros/pkg/apis/faros/v1alpha1"
 	gittrackutils "github.com/pusher/faros/pkg/controller/gittrack/utils"
 	farosflags "github.com/pusher/faros/pkg/flags"
+	flogr "github.com/pusher/faros/pkg/log"
 	utils "github.com/pusher/faros/pkg/utils"
 	farosclient "github.com/pusher/faros/pkg/utils/client"
 	gitstore "github.com/pusher/git-store"
@@ -46,7 +47,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
-	rlogr "sigs.k8s.io/controller-runtime/pkg/runtime/log"
 	"sigs.k8s.io/controller-runtime/pkg/source"
 )
 
@@ -85,7 +85,7 @@ func newReconciler(mgr manager.Manager) reconcile.Reconciler {
 		lastUpdateTimes: make(map[string]time.Time),
 		mutex:           &sync.RWMutex{},
 		applier:         applier,
-		log:             rlogr.Log.WithName("gittrack-controller"),
+		log:             flogr.Log.WithName("gittrack-controller"),
 	}
 }
 

@@ -28,6 +28,7 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/jonboulle/clockwork"
+	flogr "github.com/pusher/faros/pkg/log"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -41,7 +42,6 @@ import (
 	"k8s.io/kubernetes/pkg/kubectl/scheme"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
-	rlogr "sigs.k8s.io/controller-runtime/pkg/runtime/log"
 )
 
 // Options are creation options for a Applier
@@ -117,7 +117,7 @@ func NewApplier(config *rest.Config, options Options) (*Applier, error) {
 		client:        cachingClient,
 		dynamicClient: dynamicClient,
 		config:        config,
-		log:           rlogr.Log.WithName("applier"),
+		log:           flogr.Log.WithName("applier"),
 	}
 
 	return a, nil
